@@ -22,10 +22,13 @@ if (isset($_POST["login"])) {
 
 
         if ($user && password_verify($pass, $user['password_'])) {
-
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['name'] = $user['full_name'];
-            redirect('clients/index.php');
+            if ($user['full_name'] == "admin") {
+                redirect('admin/dashboard.php');
+            } else {
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['name'] = $user['full_name'];
+                redirect('clients/index.php');
+            }
         } else {
             echo "Invalid email or password.";
         }

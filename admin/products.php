@@ -133,7 +133,7 @@ $products = $stmt->fetchAll();
 
                 </div>
                 <div class="flex items-center space-x-4">
-                    <a href="../clients/index.php" class="text-gray-700 hover:text-blue-600">View Store</a>
+
                     <a href="../logout.php" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Logout</a>
                 </div>
             </div>
