@@ -8,31 +8,9 @@ require_once '../includes/config.php';
 $message = '';
 
 // Handle stock update
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_stock'])) {
-    $product_id = intval($_POST['product_id']);
-    $new_stock = intval($_POST['stock']);
 
-    if ($product_id > 0 && $new_stock >= 0) {
-        $stmt = $pdo->prepare("UPDATE products SET stock = :stock WHERE id = :id");
-        $stmt->execute([':stock' => $new_stock, ':id' => $product_id]);
-        $message = 'Stock updated successfully!';
-    }
-}
 
-// Get all products
-$search = isset($_GET['search']) ? trim($_GET['search']) : '';
-$sql = "SELECT * FROM products WHERE 1=1";
-$params = [];
 
-if ($search) {
-    $sql .= " AND name LIKE :search";
-    $params[':search'] = "%$search%";
-}
-
-$sql .= " ORDER BY id DESC";
-$stmt = $pdo->prepare($sql);
-$stmt->execute($params);
-$products = $stmt->fetchAll();
 
 $sql = "SELECT users.full_name, orders.* 
         FROM users 
