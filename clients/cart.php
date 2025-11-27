@@ -111,7 +111,7 @@ if ($_SESSION['user_id']) {
                                             class="w-20 px-2 py-1 border rounded text-center">
                                     </form>
                                 </td>
-                                <td class="px-6 py-4 text-center font-semibold">$<?php echo number_format($item['price'], 2); ?></td>
+                                <td class="px-6 py-4 text-center font-semibold"><?php echo number_format($item['price'], 2); ?> dh</td>
                                 <td class="px-6 py-4 text-center">
                                     <form method="POST" action="cart_action.php" class="inline">
                                         <input type="hidden" name="action" value="remove">
@@ -127,7 +127,7 @@ if ($_SESSION['user_id']) {
                 <div class="bg-gray-50 px-6 py-4">
                     <div class="flex justify-between items-center mb-4">
                         <span class="text-xl font-bold">Total:</span>
-                        <span class="text-2xl font-bold text-blue-600">$<?php echo number_format($total, 2); ?></span>
+                        <span class="text-2xl font-bold text-blue-600"> <?php echo number_format($total, 2); ?> Dh</span>
                     </div>
 
                     <?php // if (is_logged_in()): 
