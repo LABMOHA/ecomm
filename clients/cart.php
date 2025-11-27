@@ -2,35 +2,35 @@
 require_once '../includes/config.php';
 session_start();
 
-$cart = get_cart();
-$cart_items = [];
+$cart ;
+$cart_items = $_SESSION['cart'];
 $total = 0;
 
 
 //$ids = array_keys($cart);
 //$placeholders = str_repeat('?,', count($ids) - 1) . '?';
 if ($_SESSION['user_id']) {
-    $stmt = $pdo->prepare("SELECT * FROM products WHERE id = :id");
-    $stmt->execute([':id' => $_SESSION['user_id']]);
+    // $stmt = $pdo->prepare("SELECT * FROM products WHERE id = :id");
+    // $stmt->execute([':id' => $_SESSION['user_id']]);
     
-     $stmt = $pdo->prepare("SELECT * FROM order_items WHERE product_id = :id");
-    $stmt->execute([':id' => $_SESSION['product_id']]);
+    //  $stmt = $pdo->prepare("SELECT * FROM order_items WHERE product_id = :id");
+    // $stmt->execute([':id' => $_SESSION['product_id']]);
 
 
 
-    $products = $stmt->fetchAll();
+    //$orders = $stmt->fetchAll();
 
-    foreach ($products as $product) {
-        $quantity = $cart[$product['id']];
-        $subtotal = $product['price'] * $quantity;
-        $total += $subtotal;
+    // foreach ($products as $product) {
+    //     $quantity = $cart[$product['id']];
+    //     $subtotal = $product['price'] * $quantity;
+    //     $total += $subtotal;
 
-        $cart_items[] = [
-            'product' => $product,
-            'quantity' => $quantity,
-            'subtotal' => $subtotal
-        ];
-    }
+    //     $cart_items[] = [
+    //         'product' => $product,
+    //         'quantity' => $quantity,
+    //         'subtotal' => $subtotal
+    //     ];
+    // }
 }
 
 ?>
@@ -59,9 +59,7 @@ if ($_SESSION['user_id']) {
                     <a href="logout.php" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Logout</a>
                     <?php //else: 
                     ?>
-                    <a href="login.php" class="text-gray-700 hover:text-blue-600">Login</a>
-                    <?php //endif; 
-                    ?>
+                    
                 </div>
             </div>
         </div>
@@ -94,31 +92,30 @@ if ($_SESSION['user_id']) {
                             <tr>
                                 <td class="px-6 py-4">
                                     <div class="flex items-center">
-                                        <img src="<?php echo sanitize_output($item['product']['image_url']); ?>"
-                                            alt="<?php echo sanitize_output($item['product']['name']); ?>"
+                                        <img src="<?php echo sanitize_output($item['image']); ?>"
+                                            alt="<?php echo sanitize_output($item['name']); ?>"
                                             class="w-16 h-16 object-cover rounded mr-4">
                                         <div>
-                                            <div class="font-semibold"><?php echo sanitize_output($item['product']['name']); ?></div>
-                                            <div class="text-sm text-gray-500">Stock: <?php echo $item['product']['stock']; ?></div>
+                                            <div class="font-semibold"><?php echo sanitize_output($item['name']); ?></div>
+                                            <div class="text-sm text-gray-500">Stock: <?php echo $item['stock']; ?></div>
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-6 py-4 text-center">$<?php echo number_format($item['product']['price'], 2); ?></td>
+                                <td class="px-6 py-4 text-center">$<?php echo number_format($item['price'], 2); ?></td>
                                 <td class="px-6 py-4 text-center">
                                     <form method="POST" action="cart_action.php" class="inline">
                                         <input type="hidden" name="action" value="update">
-                                        <input type="hidden" name="product_id" value="<?php echo $item['product']['id']; ?>">
-                                        <input type="number" name="quantity" value="<?php echo $item['quantity']; ?>"
-                                            min="0" max="<?php echo $item['product']['stock']; ?>"
-                                            class="w-20 px-2 py-1 border rounded text-center"
-                                            onchange="this.form.submit()">
+                                        <input type="hidden" name="product_id" value="<?php echo $item['id']; ?>">
+                                        <input type="number" name="quantity" value="<?php echo $item['stock']; ?>"
+                                            min="0" max="<?php echo $item['stock']; ?>"
+                                            class="w-20 px-2 py-1 border rounded text-center">
                                     </form>
                                 </td>
-                                <td class="px-6 py-4 text-center font-semibold">$<?php echo number_format($item['subtotal'], 2); ?></td>
+                                <td class="px-6 py-4 text-center font-semibold">$<?php echo number_format($item['price'], 2); ?></td>
                                 <td class="px-6 py-4 text-center">
                                     <form method="POST" action="cart_action.php" class="inline">
                                         <input type="hidden" name="action" value="remove">
-                                        <input type="hidden" name="product_id" value="<?php echo $item['product']['id']; ?>">
+                                        <input type="hidden" name="product_id" value="<?php echo $item['id']; ?>">
                                         <button type="submit" class="text-red-500 hover:text-red-700">Remove</button>
                                     </form>
                                 </td>

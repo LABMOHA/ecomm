@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 require_once '../includes/config.php';
 
 
@@ -6,7 +8,7 @@ require_once '../includes/config.php';
 $message = '';
 $error = '';
 
-//  DELETE
+// this delete
 if (isset($_GET['delete'])) {
     $id = intval($_GET['delete']);
     try {

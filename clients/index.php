@@ -78,15 +78,10 @@ try {
                 <div class="flex items-center">
                     <a href="index.php" class="text-2xl font-bold text-blue-600">E-Shop</a>
                 </div>
-                <div class="flex items-center space-x-4">
-                    <a href="cart.php" class="text-gray-700 hover:text-blue-600">
-                        Cart
-                    </a>
 
-                </div>
                 <?php if (isset($_SESSION["user_id"])): ?>
                     <div class="flex items-center space-x-4">
-                        <a href="logout.php" class="text-gray-700 hover:text-blue-600">
+                        <a href="logout.php" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
                             Logout
                         </a>
 
@@ -98,7 +93,7 @@ try {
 
     <!-- Main Content -->
 
-    
+
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="mb-8">
             <form method="GET" class="flex gap-2">
@@ -132,11 +127,16 @@ try {
                         </div>
                         <form method="POST" action="cart_action.php" class="mt-4">
                             <input type="hidden" name="action" value="add">
-                            <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                            <input type="hidden" name="id" value="<?php echo $product['id']; ?>">
+                            <input type="hidden" name="name" value="<?php echo $product['name']; ?>">
+                            <input type="hidden" name="price" value="<?php echo $product['price']; ?>">
+                            <input type="hidden" name="stock" value="<?php echo $product['stock']; ?>">
+                            <input type="hidden" name="image_url" value="<?php echo $product['image_url']; ?>">
+
                             <button type="submit"
                                 class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 disabled:bg-gray-400"
-                                <?php echo $product['stock'] == 0 ? 'disabled' : ''; ?>>
-                                <?php echo $product['stock'] > 0 ? 'Add to Cart' : 'Out of Stock'; ?>
+                                   > Add to cart
+
                             </button>
                         </form>
                     </div>
