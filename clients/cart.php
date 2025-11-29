@@ -44,15 +44,15 @@ $total = 0;
     <div class="max-w-4xl mx-auto px-4 py-8">
         <h1 class="text-3xl font-bold mb-6">Shopping Cart</h1>
 
-        
+
         <div id="empty" class="bg-white rounded-lg shadow p-8 text-center">
             <p class="text-gray-500 text-lg mb-4">Your cart is empty</p>
             <a href="index.php" class="inline-block bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600">
                 Start Shopping
             </a>
         </div>
-        
-        <div  id= "nonempty" class="bg-white rounded-lg shadow overflow-hidden">
+
+        <div id="nonempty" class="bg-white rounded-lg shadow overflow-hidden">
             <table class="w-full">
                 <thead class="bg-gray-100">
                     <tr>
@@ -67,7 +67,7 @@ $total = 0;
 
                 </tbody>
             </table>
-            
+
             <div class="bg-gray-50 px-6 py-4">
                 <div class="flex justify-between items-center mb-4">
                     <span class="text-xl font-bold">Total:</span>
@@ -124,9 +124,9 @@ $total = 0;
             </td>
             <td class="px-6 py-4 text-center">
                 <form method="POST" action="cart_action.php" class="inline">
-                    <input type="hidden" name="action" value="remove">
+                    
                     <input type="hidden" name="product_id" value="${element.id}">
-                    <button type="submit" class="text-red-500 hover:text-red-700">Remove</button>
+                    <button class="remove" type="submit" class="text-red-500 hover:text-red-700">Remove</button>
                 </form>
             </td>
         </tr>
@@ -135,16 +135,22 @@ $total = 0;
         });
 
 
-        if(show.length>0)
-        {
-                document.getElementById("empty").style.display="none";
+        if (show.length > 0) {
+            document.getElementById("empty").style.display = "none";
+
+        } else {
+            document.getElementById("nonempty").style.display = "none";
 
         }
-        else {
-                            document.getElementById("nonempty").style.display="none";
 
-        }
-    
+
+
+        document.querySelectorAll('.remove').forEach(element => {
+            element.addEventListener('click', function() {
+
+
+            });
+        });
     </script>
 
 </body>
