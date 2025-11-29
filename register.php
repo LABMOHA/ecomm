@@ -2,7 +2,6 @@
 
 require_once("includes/config.php");
 
-
 ?>
 
 
@@ -71,7 +70,7 @@ require_once("includes/config.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    
+
     $name = filter_input(INPUT_POST, "full_name", FILTER_SANITIZE_SPECIAL_CHARS);
 
     $email = filter_input(INPUT_POST, "email");
