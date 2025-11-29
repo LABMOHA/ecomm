@@ -44,31 +44,30 @@ $total = 0;
     <div class="max-w-4xl mx-auto px-4 py-8">
         <h1 class="text-3xl font-bold mb-6">Shopping Cart</h1>
 
-        <?php if (empty($cart_items)) { ?>
-            <div class="bg-white rounded-lg shadow p-8 text-center">
-                <p class="text-gray-500 text-lg mb-4">Your cart is empty</p>
-                <a href="index.php" class="inline-block bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600">
-                    Start Shopping
-                </a>
-            </div>
-        <?php } else { ?>
-            <div class="bg-white rounded-lg shadow overflow-hidden">
-                <table class="w-full">
-                    <thead class="bg-gray-100">
-                        <tr>
-                            <th class="px-6 py-3 text-left">Product</th>
-                            <th class="px-6 py-3 text-center">Price</th>
-                            <th class="px-6 py-3 text-center">Quantity</th>
+        
+        <div id="empty" class="bg-white rounded-lg shadow p-8 text-center">
+            <p class="text-gray-500 text-lg mb-4">Your cart is empty</p>
+            <a href="index.php" class="inline-block bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600">
+                Start Shopping
+            </a>
+        </div>
+        
+        <div  id= "nonempty" class="bg-white rounded-lg shadow overflow-hidden">
+            <table class="w-full">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="px-6 py-3 text-left">Product</th>
+                        <th class="px-6 py-3 text-center">Price</th>
+                        <th class="px-6 py-3 text-center">Quantity</th>
 
-                            <th class="px-6 py-3"></th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y">
+                        <th class="px-6 py-3"></th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y">
 
-                    </tbody>
-                </table>
-            <?php  } ?>
-
+                </tbody>
+            </table>
+            
             <div class="bg-gray-50 px-6 py-4">
                 <div class="flex justify-between items-center mb-4">
                     <span class="text-xl font-bold">Total:</span>
@@ -78,30 +77,34 @@ $total = 0;
                 <?php // if (is_logged_in()): 
                 ?>
                 <a href="checkout.php" class="block w-full bg-green-500 text-white text-center py-3 rounded-lg hover:bg-green-600 font-semibold">
-                    Proceed to Checkout
+                    Go to Checkout
                 </a>
 
             </div>
-            </div>
+        </div>
 
     </div>
     <script>
         let show = [];
-        if (!localStorage.getItem('test')) {
-            show.push(JSON.parse(localStorage.getItem('test')));
 
+        const cartString = localStorage.getItem('cart');
+
+        if (cartString) {
+            const cartObj = JSON.parse(cartString);
+            show = Object.values(cartObj);
         }
+
+        console.log("show:", show);
+
         const tbody = document.querySelector("tbody");
 
-        console.log(show)
-       
 
 
-            show.forEach(element => {
-                tbody.innerHTML += `<tr>
+        show.forEach(element => {
+            tbody.innerHTML += `<tr>
             <td class="px-6 py-4">
                 <div class="fl$ex items-center">
-                    <img src="${element.image_url}"
+                    <img src="${element.image}"
                         alt="${element.name}"
                         class="w-16 h-16 object-cover rounded mr-4">
                     <div>
@@ -129,12 +132,19 @@ $total = 0;
         </tr>
         `;
 
-            });
+        });
 
 
+        if(show.length>0)
+        {
+                document.getElementById("empty").style.display="none";
 
+        }
+        else {
+                            document.getElementById("nonempty").style.display="none";
 
-        
+        }
+    
     </script>
 
 </body>
