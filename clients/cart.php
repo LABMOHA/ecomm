@@ -221,6 +221,15 @@ $total = 0;
             delete cartObj[id];
 
             localStorage.setItem('cart', JSON.stringify(cartObj));
+            document.querySelectorAll('td[data-id]').forEach(
+                el => {
+                    if (id == el.dataset.id) {
+                        let total = document.getElementById("total");
+                        total.innerHTML = document(total.value) - el.value;
+                    }
+
+                }
+            );
             window.location.reload();
         }
 
