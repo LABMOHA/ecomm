@@ -71,6 +71,8 @@ $total = 0;
             <div class="bg-gray-50 px-6 py-4">
                 <div class="flex justify-between items-center mb-4">
                     <span class="text-xl font-bold">Total:</span>
+                    <div class="text-xl font-bold"><span id="total" class="text-xl font-bold">0</span> Dh</div>
+                    
 
                 </div>
 
@@ -85,6 +87,7 @@ $total = 0;
 
     </div>
     <script>
+        total=0;
         let show = [];
 
         const cartString = localStorage.getItem('cart');
@@ -101,6 +104,7 @@ $total = 0;
 
 
         show.forEach(element => {
+            total+=element.price;
             tbody.innerHTML += `<tr>
             <td class="px-6 py-4">
                 <div class="fl$ex items-center">
@@ -123,16 +127,19 @@ $total = 0;
                 </form>
             </td>
             <td class="px-6 py-4 text-center">
-                <form method="POST" action="cart_action.php" class="inline">
+                
                     
                     <input type="hidden" name="product_id" value="${element.id}">
-                    <button class="remove" type="submit" class="text-red-500 hover:text-red-700">Remove</button>
-                </form>
+                    <button class="remove" data-id="${element.id}" type="submit" class="text-red-500 hover:text-red-700">Remove</button>
+                
             </td>
         </tr>
         `;
 
         });
+
+       document.getElementById("total").innerHTML=total;
+       console.log(total);
 
 
         if (show.length > 0) {
@@ -145,12 +152,27 @@ $total = 0;
 
 
 
-        document.querySelectorAll('.remove').forEach(element => {
-            element.addEventListener('click', function() {
+        
 
+      function removefromCart(id) {
+    const cartString = localStorage.getItem('cart');
+    console.log(id);
+    if (!cartString) return;
 
-            });
-        });
+    const cartObj = JSON.parse(cartString);
+    delete cartObj[id]; 
+
+    localStorage.setItem('cart', JSON.stringify(cartObj));
+    window.location.reload();
+}
+
+document.querySelectorAll('.remove').forEach(element => {
+    element.addEventListener('click', function(){
+    removefromCart(this.dataset.id);
+    console.log(this.dataset.id);
+    });
+});
+
     </script>
 
 </body>
