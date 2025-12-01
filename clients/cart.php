@@ -57,8 +57,10 @@ $total = 0;
                 <thead class="bg-gray-100">
                     <tr>
                         <th class="px-6 py-3 text-left">Product</th>
-                        <th class="px-6 py-3 text-center">Price</th>
+                        <th class="px-6 py-3 text-center">Price(for 1 )</th>
                         <th class="px-6 py-3 text-center">Quantity</th>
+                        <th class="px-6 py-3 text-center">Price total per product </th>
+
 
                         <th class="px-6 py-3"></th>
                     </tr>
@@ -72,7 +74,7 @@ $total = 0;
                 <div class="flex justify-between items-center mb-4">
                     <span class="text-xl font-bold">Total:</span>
                     <div class="text-xl font-bold"><span id="total" class="text-xl font-bold">0</span> Dh</div>
-                    
+
 
                 </div>
 
@@ -87,7 +89,7 @@ $total = 0;
 
     </div>
     <script>
-        total=0;
+        total = 0;
         let show = [];
 
         const cartString = localStorage.getItem('cart');
@@ -104,7 +106,7 @@ $total = 0;
 
 
         show.forEach(element => {
-            total+=element.price;
+            total += element.price;
             tbody.innerHTML += `<tr>
             <td class="px-6 py-4">
                 <div class="fl$ex items-center">
@@ -121,11 +123,12 @@ $total = 0;
                 <form method="POST" action="cart_action.php" class="inline">
                     <input type="hidden" name="action" value="update">
                     <input type="hidden" name="product_id" value="${element.id}">
-                    <input type="number" name="quantity" value="1"
+                    <input type="number" data-id="${element.id}" name="quantity" value="1"
                         min="0" max="${element.stock}"
                         class="w-20 px-2 py-1 border rounded text-center">
                 </form>
             </td>
+            <td class="px-6 py-4 text-center" data-id="${element.id}">${element.price}</td>
             <td class="px-6 py-4 text-center">
                 
                     
@@ -138,8 +141,7 @@ $total = 0;
 
         });
 
-       document.getElementById("total").innerHTML=total;
-       console.log(total);
+
 
 
         if (show.length > 0) {
@@ -150,29 +152,84 @@ $total = 0;
 
         }
 
+        function addtotal() {
+            let total = document.getElementById("total")
+            let tot = 0;
+            document.querySelectorAll('td[data-id]').forEach(
+                el => {
+                    tot += Number(el.textContent);
+                }
+            );
+            total.innerHTML = tot;
+            console.log(tot);
+        }
+
+        //let newtotal;
+        document.querySelectorAll('input[name="quantity"]').forEach(
+            input => {
+                input.addEventListener('input', () => {
+                    let newtotal = 0;
+                    show.forEach(element => {
+                        if (element.id == input.dataset.id) {
+                            element.quantity = Number(input.value);
+                            newtotal += element.quantity * element.price;
+                            document.querySelectorAll('td[data-id]').forEach(
+                                el => {
+                                    if (el.dataset.id == input.dataset.id)
+                                        el.innerHTML = newtotal;
+                                }
+                            );
+                        }
 
 
-        
 
-      function removefromCart(id) {
-    const cartString = localStorage.getItem('cart');
-    console.log(id);
-    if (!cartString) return;
 
-    const cartObj = JSON.parse(cartString);
-    delete cartObj[id]; 
+                        console.log(newtotal);
+                        addtotal();
 
-    localStorage.setItem('cart', JSON.stringify(cartObj));
-    window.location.reload();
-}
+                    });
 
-document.querySelectorAll('.remove').forEach(element => {
-    element.addEventListener('click', function(){
-    removefromCart(this.dataset.id);
-    console.log(this.dataset.id);
-    });
-});
+                });
 
+
+            }
+
+
+        );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        function removefromCart(id) {
+            const cartString = localStorage.getItem('cart');
+            console.log(id);
+            if (!cartString) return;
+
+            const cartObj = JSON.parse(cartString);
+            delete cartObj[id];
+
+            localStorage.setItem('cart', JSON.stringify(cartObj));
+            window.location.reload();
+        }
+
+        document.querySelectorAll('.remove').forEach(element => {
+            element.addEventListener('click', function() {
+                removefromCart(this.dataset.id);
+                console.log(this.dataset.id);
+            });
+        });
     </script>
 
 </body>
