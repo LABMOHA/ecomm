@@ -32,7 +32,7 @@ try {
                         🛒 Cart (<span id="cart-count">0</span>)
                     </a>
                     <?php if (isset($_SESSION["user_id"])): ?>
-                        <a href="logout.php" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                        <a href="../logout.php" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
                             Logout
                         </a>
                     <?php endif; ?>
@@ -82,6 +82,9 @@ try {
     </div>
 
     <script>
+
+
+
         // Get cart from localStorage
         function getCart() {
             const cart = localStorage.getItem('cart');
